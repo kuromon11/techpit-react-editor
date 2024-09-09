@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 
 import { Editor } from './pages/editor';
+import { History } from './pages/history';
 
 // ページ全体に適用するスタイル
 const GlobalStyle = createGlobalStyle`
@@ -25,7 +26,7 @@ const Main = (
         <Editor />
       </Route>
       <Route exact path="/history">
-        <h1>History</h1>
+        <History />
       </Route>
       <Redirect to="/editor" path="*" />
     </Router>
