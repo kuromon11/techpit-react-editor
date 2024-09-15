@@ -1,6 +1,6 @@
 import * as React from 'react';
 const { useState, useEffect } = React;
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { getMemos, MemoRecord } from '../indexeddb/memos';
@@ -45,8 +45,14 @@ const MemoText = styled.div`
   white-space: nowrap;
 `;
 
-export const History: React.FC = () => {
+interface Props {
+  setText: (text: string) => void;
+}
+
+export const History: React.FC<Props> = (props) => {
+  const { setText } = props;
   const [memos, setMemos] = useState<MemoRecord[]>([]);
+  const history = useHistory();
 
   // 副作用 (effect) フック。レンダリング後、または[]が更新されたら実行
   useEffect(() => {
@@ -62,7 +68,13 @@ export const History: React.FC = () => {
       </HeaderArea>
       <Wrapper>
         {memos.map((memo) => (
-          <Memo key={memo.datetime}>
+          <Memo
+            key={memo.datetime}
+            onClick={() => {
+              setText(memo.text);
+              history.push('/editor');
+            }}
+          >
             <MemoTitle>{memo.title}</MemoTitle>
             <MemoText>{memo.text}</MemoText>
           </Memo>

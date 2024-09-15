@@ -1,15 +1,14 @@
 import * as React from 'react';
+const { useState } = React;
 import styled from 'styled-components';
 import * as ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
 
-import { SaveModal } from '../components/save_modal';
-import { useStateWithStorage } from '../hooks/use_state_with_storage';
 import { putMemo } from '../indexeddb/memos';
+
 import { Button } from '../components/button';
 import { Header } from '../components/header';
-
-const { useState } = React;
+import { SaveModal } from '../components/save_modal';
 
 const Wrapper = styled.div`
   bottom: 0;
@@ -49,15 +48,15 @@ const Preview = styled.div`
   width: 50vw;
 `;
 
-const StorageKey = 'pages/editor:text';
+interface Props {
+  text: string;
+  setText: (text: string) => void;
+}
 
 // 関数コンポーネント
-export const Editor: React.FC = () => {
-  const [text, setText] = useStateWithStorage('', StorageKey);
+export const Editor: React.FC<Props> = (props) => {
+  const { text, setText } = props;
   const [showModal, setShowModal] = useState(false);
-  const saveMemo = (): void => {
-    putMemo('TITLE', text);
-  };
 
   return (
     <>
