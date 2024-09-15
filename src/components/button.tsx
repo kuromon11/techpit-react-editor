@@ -25,10 +25,7 @@ interface Props {
 }
 
 export const Button: React.FC<Props> = (props) => (
-  <StyledButton
-    onClick={props.onClick}
-    className={props.cancel ? 'cancel' : ''}
-  >
+  <StyledButton onClick={props.onClick} className={props.cancel ? 'cancel' : ''}>
     {props.children}
   </StyledButton>
 );

@@ -1,12 +1,7 @@
 import * as React from 'react'; // ファイル内で使用しないが、JSXを使う場合はインポートの必要があるため必須
 import { render } from 'react-dom';
 import { createGlobalStyle } from 'styled-components';
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import { Editor } from './pages/editor';
 import { History } from './pages/history';

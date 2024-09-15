@@ -81,10 +81,7 @@ export const Editor: React.FC = () => {
         </HeaderControl>
       </Header>
       <Wrapper>
-        <TextArea
-          onChange={(event) => setText(event.target.value)}
-          value={text}
-        />
+        <TextArea onChange={(event) => setText(event.target.value)} value={text} />
         <Preview>
           <ReactMarkdown>{text}</ReactMarkdown>
         </Preview>
