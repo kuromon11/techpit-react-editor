@@ -1,6 +1,9 @@
 import * as React from 'react';
+const { useState, useEffect } = React;
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { getMemos, MemoRecord } from '../indexeddb/memos';
 
 import { Header } from '../components/header';
 
