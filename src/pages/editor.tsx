@@ -4,7 +4,7 @@ import * as ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
 
 // 読み込むファイルパスの前に worker-loader!を付ける（おまじない）
-import TestWorker from 'worker-loader!../worker/test.ts';
+import TestWorker from 'worker-loader!../worker/convert_markdown_worker';
 
 import { putMemo } from '../indexeddb/memos';
 
