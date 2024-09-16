@@ -63,6 +63,13 @@ export const Editor: React.FC<Props> = (props) => {
   const { text, setText } = props;
   const [showModal, setShowModal] = useState(false);
 
+  // ---お試しコード---
+  // let count: number = 1;
+  // while (count < 1_000_000_000) {
+  //   // 最初から大きな値を入れないでください！
+  //   count++;
+  // }
+
   useEffect(() => {
     testWorker.onmessage = (event) => {
       console.log('Main thread Received:', event.data);
