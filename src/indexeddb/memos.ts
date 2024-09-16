@@ -1,5 +1,7 @@
 import Dexie from 'dexie';
 
+const NUM_PER_PAGE: number = 5;
+
 export interface MemoRecord {
   datetime: string;
   title: string;
@@ -15,7 +17,14 @@ export const putMemo = async (title: string, text: string): Promise<void> => {
   await memos.put({ datetime, title, text });
 };
 
+export const getMemoPageCount = async (): Promise<number> => {
+  const totalCount = await memos.count();
+  const pageCount = Math.ceil(totalCount / NUM_PER_PAGE);
+  return pageCount > 0 ? pageCount : 1;
+};
+
 // テキスト履歴をリストで取得
-export const getMemos = (): Promise<MemoRecord[]> => {
-  return memos.orderBy('datetime').reverse().toArray();
+export const getMemos = (page: number): Promise<MemoRecord[]> => {
+  const offset = (page - 1) * NUM_PER_PAGE;
+  return memos.orderBy('datetime').reverse().offset(offset).limit(NUM_PER_PAGE).toArray();
 };
