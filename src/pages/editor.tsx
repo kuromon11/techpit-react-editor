@@ -1,14 +1,18 @@
 import * as React from 'react';
-const { useState } = React;
 import styled from 'styled-components';
-import * as ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
+
+// 読み込むファイルパスの前に worker-loader!を付ける（おまじない）
+import ConvertMarkdownWorker from 'worker-loader!../worker/convert_markdown_worker';
 
 import { putMemo } from '../indexeddb/memos';
 
 import { Button } from '../components/button';
 import { Header } from '../components/header';
 import { SaveModal } from '../components/save_modal';
+
+const convertMarkdownWorker = new ConvertMarkdownWorker();
+const { useState, useEffect } = React;
 
 const Wrapper = styled.div`
   bottom: 0;
@@ -57,6 +61,17 @@ interface Props {
 export const Editor: React.FC<Props> = (props) => {
   const { text, setText } = props;
   const [showModal, setShowModal] = useState(false);
+  const [html, setHtml] = useState('');
+
+  useEffect(() => {
+    convertMarkdownWorker.onmessage = (event) => {
+      setHtml(event.data.html);
+    };
+  }, []);
+
+  useEffect(() => {
+    convertMarkdownWorker.postMessage(text);
+  }, [text]);
 
   return (
     <>
@@ -69,7 +84,7 @@ export const Editor: React.FC<Props> = (props) => {
       <Wrapper>
         <TextArea onChange={(event) => setText(event.target.value)} value={text} />
         <Preview>
-          <ReactMarkdown>{text}</ReactMarkdown>
+          <div dangerouslySetInnerHTML={{ __html: html }} />
         </Preview>
       </Wrapper>
       {showModal && (
